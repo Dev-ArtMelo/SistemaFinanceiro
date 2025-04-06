@@ -2,16 +2,19 @@ package ui;
 import javax.swing.*;
 import dao.GerenciadorUsuarios;
 import dao.GerenciadorTransacoes;
+import dao.GerenciadorCategorias;
 
 public class TelaLogin extends JFrame {
     private GerenciadorUsuarios gerenciadorUsuarios;
     private GerenciadorTransacoes gerenciadorTransacoes;
+    private GerenciadorCategorias gerenciadorCategorias;
     private JTextField usuarioText;
     private JPasswordField senhaText;
 
-    public TelaLogin(GerenciadorUsuarios gerenciadorUsuarios, GerenciadorTransacoes gerenciadorTransacoes) {
+    public TelaLogin(GerenciadorUsuarios gerenciadorUsuarios, GerenciadorTransacoes gerenciadorTransacoes, GerenciadorCategorias gerenciadorCategorias) {
         this.gerenciadorUsuarios = gerenciadorUsuarios;
         this.gerenciadorTransacoes = gerenciadorTransacoes;
+        this.gerenciadorCategorias = gerenciadorCategorias;
 
         setTitle("Login");
         setSize(300, 250);
@@ -50,10 +53,7 @@ public class TelaLogin extends JFrame {
         cadastrarButton.setBounds(120, 80, 100, 25);
         panel.add(cadastrarButton);
 
-        // Ação para validar login
         loginButton.addActionListener(e -> validarLogin());
-
-        // Abre a tela de cadastro ao clicar em "Cadastrar"
         cadastrarButton.addActionListener(e -> new TelaCadastroUsuario(gerenciadorUsuarios).setVisible(true));
     }
 
@@ -63,8 +63,8 @@ public class TelaLogin extends JFrame {
 
         if (gerenciadorUsuarios.autenticarUsuario(email, senha)) {
             JOptionPane.showMessageDialog(this, "Login bem-sucedido!");
-            new TelaCadastroTransacao(gerenciadorTransacoes).setVisible(true); // Abre a tela de transações
-            this.dispose(); // Fecha a tela de login
+            new TelaCadastroTransacao(gerenciadorTransacoes, gerenciadorCategorias).setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos.");
         }

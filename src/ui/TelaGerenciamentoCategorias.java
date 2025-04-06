@@ -8,9 +8,11 @@ public class TelaGerenciamentoCategorias extends JFrame {
     private JTextField categoriaText;
     private JList<String> listaCategorias;
     private DefaultListModel<String> modeloLista;
+    private TelaCadastroTransacao telaCadastroTransacao;
 
-    public TelaGerenciamentoCategorias(GerenciadorCategorias gerenciador) {
+    public TelaGerenciamentoCategorias(GerenciadorCategorias gerenciador, TelaCadastroTransacao telaCadastroTransacao) {
         this.gerenciador = gerenciador;
+        this.telaCadastroTransacao = telaCadastroTransacao;
         setTitle("Gerenciamento de Categorias");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -58,6 +60,7 @@ public class TelaGerenciamentoCategorias extends JFrame {
         if (!categoria.isEmpty()) {
             gerenciador.adicionarCategoria(categoria);
             atualizarLista();
+            telaCadastroTransacao.atualizarCategorias(); // Atualiza o JComboBox na tela de transação
         }
     }
 
@@ -68,6 +71,7 @@ public class TelaGerenciamentoCategorias extends JFrame {
             if (novaCategoria != null && !novaCategoria.isEmpty()) {
                 gerenciador.editarCategoria(categoriaSelecionada, novaCategoria);
                 atualizarLista();
+                telaCadastroTransacao.atualizarCategorias(); // Atualiza o JComboBox na tela de transação
             }
         }
     }
@@ -77,6 +81,7 @@ public class TelaGerenciamentoCategorias extends JFrame {
         if (categoriaSelecionada != null) {
             gerenciador.excluirCategoria(categoriaSelecionada);
             atualizarLista();
+            telaCadastroTransacao.atualizarCategorias(); // Atualiza o JComboBox na tela de transação
         }
     }
 
